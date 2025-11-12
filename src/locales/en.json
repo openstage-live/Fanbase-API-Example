@@ -1,0 +1,383 @@
+{
+  "addressForm": {
+    "addressLine1Placeholder": "House number and street name",
+    "addressLine2Placeholder": "Apartment, suite, unit, building, floor",
+    "button": "Confirm",
+    "cityPlaceholder": "City or town",
+    "country": "Country",
+    "description": "Add your postal address and size you wear so we can send your items now!",
+    "districtPlaceholder": "District, county, or prefecture",
+    "shippingAddress": "Shipping Address",
+    "showLocationSearch": "Show location search",
+    "noLocationsFound": "No locations found",
+    "noAddressSet": "No delivery address set",
+    "addManually": "Add it Manually",
+    "searchLocation": "Search for location...",
+    "address": "Address",
+    "geolocationErrors": {
+      "generalError": "Unable to detect your location. Please enter your address manually.",
+      "notSupported": "Location detection is not supported by your browser. Please enter your address manually.",
+      "permissionDenied": "Location access was denied. Please allow location access or enter your address manually.",
+      "positionUnavailable": "Unable to determine your location. Please check your device settings or enter your address manually.",
+      "timeout": "Location request timed out. Please try again or enter your address manually."
+    },
+    "postalCodePlaceholder": "ZIP or postal code",
+    "selectCountry": "Select your country",
+    "statePlaceholder": "State, province, or region",
+    "subdistrictPlaceholder": "Subdistrict, ward, or neighborhood",
+    "success": "Success!",
+    "successButton": "Done",
+    "successDescription": "Your exclusive items are officially on their way to you. Can't wait to see you enjoying them!",
+    "title": "Get your items!",
+    "useCurrentLocation": "Detect my location"
+  },
+  "avatar": {
+    "delete": "Delete",
+    "deleteTitle": "Delete avatar",
+    "deleteConfirmation": "Are you sure you want to delete your avatar?",
+    "profileAvatarAlt": "Profile avatar",
+    "avatarAlt": "Avatar"
+  },
+  "categories": {
+    "navigation": {
+      "andFeelA": "and feel a",
+      "atSomeVids": "at some vids,",
+      "getSome": "get some",
+      "haveA": "have a",
+      "someReading": "some reading,",
+      "toNewStuff": "to new stuff, take a"
+    }
+  },
+  "changeEmail": {
+    "fail": "Could not change email.",
+    "login": "Login with new email",
+    "success": "Your email address was successfully changed."
+  },
+  "comments": {
+    "cancel": "Cancel",
+    "confirmDelete": "Confirm delete",
+    "deleteComment": "Delete comment",
+    "deleteCommentSubtitle": "This will permanently delete this comment and all of its replies. Please confirm.",
+    "deletedComment": "Comment deleted",
+    "deletedCommentSubtitle": "This comment has been removed",
+    "commentHasBeenDeleted": "This comment has been deleted",
+    "editComment": "Edit comment",
+    "emptyState": {
+      "chattin": "Chatting!",
+      "get": "Get "
+    },
+    "reasonRequired": "Please select a reason for reporting this comment",
+    "replyingTo": "replying to",
+    "replyToComment": "Reply to comment",
+    "reportComment": "Report comment",
+    "reportReasons": {
+      "bullying": "Harassment or bullying",
+      "selfharm": "Suicide or self-harm",
+      "sexual": "Pornography or sexually explicit material",
+      "spam": "Unwanted commercial content or spam",
+      "violence": "Hate speech or graphic violence"
+    },
+    "reportSuccessful": "Comment reported successfully",
+    "reportSuccessfulSubtitle": "We will review your comment and take action if necessary.",
+    "submitReport": "Submit report",
+    "user": "User",
+    "avatarAlt": "Fan avatar"
+  },
+  "common": {
+    "accept": "Accept",
+    "account": "Account",
+    "addAComment": "Add a comment",
+    "backToApp": "Back to app",
+    "backToPost": "Back to post",
+    "cancel": "Cancel",
+    "confirm": "Confirm",
+    "continue": "Continue",
+    "copyright": "© Openstage",
+    "dontHaveAnAccount": "Don't have an account?",
+    "endOfFeed": "You have reached the end of the feed.",
+    "error": "Error",
+    "forgotPassword": "Forgot password?",
+    "haveAnAccount": "Have an account?",
+    "home": "Home",
+    "inviteFriend": "Invite friend",
+    "joinUs": "Join us",
+    "loading": "Loading...",
+    "monthly": "Monthly",
+    "noPostsFound": "No posts found",
+    "passwordResetSuccessfully": "Password reset successfully. Please login with your new password.",
+    "privacy": "Privacy",
+    "relatedPosts": "Related Posts",
+    "resetPassword": "Reset password",
+    "retry": "Retry",
+    "save": "Save",
+    "saving": "Saving",
+    "send": "Send",
+    "sendMagicLink": "Send login link",
+    "share": "Share",
+    "shareOn": "Share on",
+    "signIn": "Sign in",
+    "signingIn": "Signing in",
+    "signingUp": "Signing up",
+    "signOut": "Sign out",
+    "signUp": "Sign up",
+    "login": "Login",
+    "submit": "Submit",
+    "submitting": "Submitting",
+    "subscribe": "Subscribe",
+    "success": "Success",
+    "terms": "Terms",
+    "tickets": "Tickets",
+    "timeline": "Timeline",
+    "tryAgain": "Sorry, that didn't work. Please try again.",
+    "useMagicLinkInstead": "Use magic link instead",
+    "usePasswordInstead": "Use password instead",
+    "videoPlayer": {
+      "loadFailed": "Failed to load video. Please try again later.",
+      "networkError": "Network error. Please check your connection and try again.",
+      "noVideoData": "No video data received",
+      "permissionDenied": "You do not have permission to view this video.",
+      "playbackFailed": "Video playback failed. Please try again.",
+      "unexpectedError": "An unexpected error occurred. Please try again.",
+      "videoNotFound": "Video not found.",
+      "videoUnavailable": "Video Unavailable"
+    },
+    "watch": "Watch",
+    "yearly": "Yearly"
+  },
+  "dynamic": {
+    "minAgeNotMet": "You must be at least {minAge} years old to create an account.",
+    "termsEmail": "I consent to {artistName} sending me marketing communications by email.",
+    "termsGeneral": "By submitting your information, you agree to the <a class='underline underline-offset-2' href=\"https://openstage.live/privacy\" target=\"_blank\" title=\"Opens in a new window\">Privacy Notice</a> and the <a class='underline underline-offset-2' href=\"https://openstage.live/terms\" target=\"_blank\" title=\"Opens in a new window\">Terms &amp; Conditions</a>. If under 18, please make sure you have parental permission.",
+    "termsPhone": "I consent to {artistName} sending me marketing communications by SMS, even if my number is on a do-not-call registry. Message frequency varies, message and data rates may apply. Text STOP to cancel."
+  },
+  "errors": {
+    "backToHome": "Back to Home",
+    "contentErrorSubtitle": "The content you're looking for could not be found. Please check the URL or try again later.",
+    "contentErrorTitle": "Error",
+    "couldNotScanTag": "Could not scan NFC tag. Please try again.",
+    "emailsMustMatch": "Emails must match",
+    "incorrectAccessCode": "Incorrect access code",
+    "invalidEmail": "Please enter a valid email address",
+    "invalidPhoneNumber": "Please enter a valid phone number",
+    "invalidToken": "Invalid or expired token",
+    "passwordMinLengthNotMet": "Password must be at least 8 characters",
+    "passwordsMustMatch": "Passwords must match",
+    "postLoadFailed": "Failed to load posts",
+    "postLoadFailedDescription": "We couldn't load the posts. Please try again.",
+    "required": "This field is required"
+  },
+  "forgotPassword": {
+    "buttonLabel": "Forgot password",
+    "subtitle": "Enter your email and we'll send you a link to reset your password.",
+    "title": "Having trouble logging in?"
+  },
+  "home": {
+    "getExclusiveAccess": "Get access to behind-the-scenes content, exclusive updates, and connect with other fans!",
+    "joinTheCommunity": "Join the Community",
+    "signUpNow": "Sign Up Now"
+  },
+  "input": {
+    "changeEmail": {
+      "buttonLabel": "Request change",
+      "description": "Enter your new email address twice and click the button to confirm. This will send a verification link to the new address.",
+      "title": "Change email"
+    },
+    "label": {
+      "accessCode": "Access code",
+      "birthDate": "Date of birth",
+      "createPassword": "Create a password",
+      "email": "Email",
+      "firstName": "First name",
+      "geolocationNotSupported": "Autofilling location is not supported by your browser",
+      "lastName": "Last name",
+      "location": "Location",
+      "newEmail": "New email",
+      "newEmailAgain": "New email again",
+      "newPassword": "New password",
+      "password": "Password",
+      "phoneNumber": "Phone number",
+      "readonly": "readonly",
+      "retypePassword": "Retype password",
+      "selectMonth": "Select month",
+      "selectYear": "Select year",
+      "shirtSize": "Your size",
+      "username": "Username"
+    },
+    "location": {
+      "description": "Allow your browser to autofill your location or select it manually from the list below. Location information may take some time to update, so don't worry if you still see your old location after an update.",
+      "emptyList": "No location found.",
+      "failedToDetectLocation": "Failed to detect location",
+      "locationError": "Invalid location",
+      "placeholder": "Select location...",
+      "title": "Update location"
+    },
+    "placeholder": {
+      "birthDate": "Select date",
+      "location": "Select location"
+    }
+  },
+  "login": {
+    "title": "Login to your account"
+  },
+  "membership": {
+    "active": "Active",
+    "cancelSubscription": "Cancel subscription",
+    "cancelSubscriptionDescription": "Are you sure you want to cancel your subscription? You will lose access to all membership benefits when your current membership period ends.",
+    "confirmChange": "Confirm change",
+    "currentTier": "Current membership",
+    "inactive": "Inactive",
+    "join": "Join now",
+    "select": "Select",
+    "selectTier": "Select membership",
+    "success": "Membership changed successfully",
+    "upgrade": "Upgrade",
+    "upgradeTier": "Change membership",
+    "upgradeYourMembershipDescription": "Get more out of your membership with exclusive perks.",
+    "free": "FREE"
+  },
+  "missingDetails": {
+    "description": "It looks like some details are missing from your profile. Please provide them below and click Update.",
+    "title": "Missing Details"
+  },
+  "notForYou": {
+    "description": "You have used a link that was meant for {emailIntendedFor}, but you are logged in as {emailCurrentUser}.",
+    "stay": "Continue with {emailCurrentUser}",
+    "switch": "Switch to {emailIntendedFor}",
+    "title": "Hi there!"
+  },
+  "passwordProtect": {
+    "title": "This page is not public."
+  },
+  "paymentMethods": {
+    "default": "Default",
+    "settingAsDefault": "Setting as default...",
+    "setAsDefault": "Set as default",
+    "delete": "Delete",
+    "expiry": "Exp:",
+    "addPaymentMethod": "Add a payment method",
+    "addPaymentMethodTitle": "Add payment method",
+    "addPaymentMethodDescription": "Add a payment method to your account that can be used to pay for your membership",
+    "deletePaymentMethodTitle": "Delete payment method",
+    "deletePaymentMethodConfirmation": "Are you sure you want to delete this payment method?",
+    "errorLoadingPaymentMethods": "Error loading payment methods",
+    "noPaymentMethodsOnRecord": "No payment methods on record"
+  },
+  "profile": {
+    "aboutYa": "About You",
+    "account": "Account",
+    "memberSince": "Member",
+    "since": "since",
+    "checkIns": "Check-ins",
+    "dailies": "Dailies",
+    "download": "Download",
+    "manageTier": "Manage",
+    "usernameDescription": "Personalise your username to whatever you want as long as its available. This is seen by others when you comment in content.",
+    "emptyTimeline": "Start exploring to discover content and experiences",
+    "hi": "Hi, {fanName}!",
+    "invites": "Friends",
+    "membership": "Membership",
+    "myStory": "My Story",
+    "paymentDetails": "Payment Details",
+    "success": "Profile updated successfully",
+    "timeline": "Timeline",
+    "paymentDetailsDialog": {
+      "title": "Payment Details",
+      "description": "Manage your payment methods and billing information"
+    },
+    "membershipCancelled": "You have cancelled your membership on {date}. You can still enjoy its benefits until the cancellation takes effect at the end of the membership period."
+  },
+  "resetPassword": {
+    "title": "Please enter a new password"
+  },
+  "signUp": {
+    "confirmMembership": "Confirm membership",
+    "chooseYourMembership": "Choose your membership",
+    "didYouMisspellEmail": "Did you misspell your email?",
+    "membershipOptions": "Membership options",
+    "noLink": "No link?",
+    "paymentAmount": "You will be charged <span>£{tierPrice}</span> which will auto-renew on this day next <span>{tierPeriod}</span>",
+    "paymentAmountFree": "This is a <span>free</span> membership that will auto-renew on this day next <span>{tierPeriod}</span>",
+    "sendAgain": "Send again.",
+    "skipForNow": "Skip for now",
+    "steps": {
+      "account": {
+        "description": "Create an account and verify your email",
+        "title": "Account"
+      },
+      "membership": {
+        "description": "Choose your membership",
+        "title": "Membership"
+      }
+    },
+    "thankYouDescription": "Follow the link to verify your email to join the community.",
+    "thankYouSubtitle": "An email with a magic link has been sent to {fanEmail}.",
+    "thankYouTitle": "Thanks!",
+    "title": "Let's get started.",
+    "youAreAlmostThere": "You're almost there"
+  },
+  "stripeRedirect": {
+    "button": "Let's go!",
+    "description": "We're processing your payment. You'll be redirected to the platform shortly.",
+    "error": "Payment failed",
+    "errorDescription": "We're sorry, but your payment was not successful. Please try again.",
+    "success": "Payment successful",
+    "successDescription": "You've successfully changed your membership. You can now access all membership benefits.",
+    "title": "Payment in progress"
+  },
+  "taps": {
+    "scanningTag": "Scanning tag..."
+  },
+  "timeline": {
+    "commentedOnPost": "You commented on a post",
+    "commentedOnPostTitle": "You commented on \"{title}\"",
+    "connectedWithUser": "You connected with {username}",
+    "downloadedContent": "You downloaded some content",
+    "playedPostAudio": "You listened to some audio",
+    "viewedPostVideo": "You watched a video",
+    "likedComment": "You liked a comment",
+    "likedCommentFrom": "You liked a comment from {username}",
+    "likedPost": "You liked a post",
+    "likedPostTitle": "You liked \"{title}\"",
+    "nfcTaps": {
+      "default": {
+        "description": "Thanks for visiting",
+        "title": "Check-in"
+      }
+    },
+    "repliedToComment": "You replied to a comment",
+    "repliedToCommentFrom": "You replied to a comment from {username}",
+    "subscriptionCancellation": {
+      "description": "Your membership has been cancelled. We'll miss you!",
+      "title": "Subscription cancelled"
+    },
+    "subscriptions": {
+      "default": {
+        "description": "You're now a member!",
+        "title": "Subscription"
+      }
+    },
+    "transactions": {
+      "merch": {
+        "description": "You bought {volume} item(s): {description}",
+        "title": "Merchandise Purchase"
+      },
+      "ticketing": {
+        "description": "You bought {volume} ticket(s) for {description}",
+        "title": "Ticket Purchase"
+      }
+    },
+    "upgrade": {
+      "description": "You upgraded your membership",
+      "title": "Membership upgraded"
+    }
+  },
+  "widgets": {
+    "invite": {
+      "buttonLabel": "Send invite",
+      "copyFailed": "Failed to copy URL",
+      "description": "Share the love and invite your friends to join the community.",
+      "title": "Invite a friend",
+      "urlCopied": "URL copied to clipboard!"
+    }
+  }
+}

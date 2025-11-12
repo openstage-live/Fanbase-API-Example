@@ -1,0 +1,32 @@
+<template>
+  <component :is="wrapperTag" v-bind="wrapperAttrs" class="image" @click="onClick">
+    <RichImage
+      :image="attrs.image"
+      :show-caption="attrs.showCaption"
+      :aspect-ratio="attrs.aspectRatio"
+    />
+  </component>
+</template>
+
+<script setup lang="ts">
+import type { NodeProps } from './RenderNode.vue';
+import { computed } from 'vue';
+import { downloadFile } from '@/utils/download';
+import { getImageAttrs } from '@modules/Post/TipTap/extensions/Image/ImageExtension';
+import RichImage from './RichImage.vue';
+
+const props = defineProps<NodeProps>();
+const attrs = computed(() => getImageAttrs(props.node.attrs));
+const isDownload = computed(() => attrs.value.type === 'download');
+const wrapperTag = computed(() => (attrs.value.href ? 'a' : 'div'));
+const wrapperAttrs = computed(() =>
+  isDownload.value ? {} : { href: attrs.value.href, target: '_blank', rel: 'noopener' },
+);
+
+function onClick() {
+  if (isDownload.value && attrs.value.href) {
+    downloadFile(attrs.value.href);
+    props.addTelemetry('download');
+  }
+}
+</script>

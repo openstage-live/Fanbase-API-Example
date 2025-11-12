@@ -1,0 +1,99 @@
+<template>
+  <component :is="block" :node :addTelemetry :class="wrapperClasses">
+    <template v-for="(child, _index) in node.content" :key="_index">
+      <RenderNode :node="child" :addTelemetry />
+    </template>
+  </component>
+</template>
+
+<script setup lang="ts">
+import type { JSONContent } from '@tiptap/core';
+
+import { computed } from 'vue';
+import BlockAudio from '@modules/Post/TipTap/blocks//BlockAudio.vue';
+import BlockBlockquote from '@modules/Post/TipTap/blocks/BlockBlockquote.vue';
+import BlockBulletList from '@modules/Post/TipTap/blocks/BlockBulletList.vue';
+import BlockButton from '@modules/Post/TipTap/blocks/BlockButton.vue';
+import BlockCarousel from '@modules/Post/TipTap/blocks/BlockCarousel.vue';
+import BlockDocument from '@modules/Post/TipTap/blocks/BlockDocument.vue';
+import BlockGallery from '@modules/Post/TipTap/blocks/BlockGallery.vue';
+import BlockHardbreak from '@modules/Post/TipTap/blocks/BlockHardbreak.vue';
+import BlockHeading from '@modules/Post/TipTap/blocks/BlockHeading.vue';
+import BlockHorizontalRule from '@modules/Post/TipTap/blocks/BlockHorizontalRule.vue';
+import BlockImage from '@modules/Post/TipTap/blocks/BlockImage.vue';
+import BlockListItem from '@modules/Post/TipTap/blocks/BlockListItem.vue';
+import BlockOrderedList from '@modules/Post/TipTap/blocks/BlockOrderedList.vue';
+import BlockParagraph from '@modules/Post/TipTap/blocks/BlockParagraph.vue';
+import BlockSection from '@modules/Post/TipTap/blocks/BlockSection.vue';
+import BlockSpotify from '@modules/Post/TipTap/blocks/BlockSpotify.vue';
+import BlockText from '@modules/Post/TipTap/blocks/BlockText.vue';
+import BlockUnknown from '@modules/Post/TipTap/blocks/BlockUnknown.vue';
+import BlockVideo from '@modules/Post/TipTap/blocks/BlockVideo.vue';
+import BlockVimeo from '@modules/Post/TipTap/blocks/BlockVimeo.vue';
+import BlockYouTube from '@modules/Post/TipTap/blocks/BlockYouTube.vue';
+
+export interface NodeProps {
+  node: JSONContent;
+  addTelemetry: (metric: string) => void;
+}
+
+const props = defineProps<NodeProps>();
+
+const block = computed(() => {
+  const type = props.node.type;
+
+  if (!type) return BlockDocument;
+
+  switch (type) {
+    case 'audio':
+      return BlockAudio;
+    case 'blockquote':
+      return BlockBlockquote;
+    case 'bulletList':
+      return BlockBulletList;
+    case 'button':
+      return BlockButton;
+    case 'carousel':
+      return BlockCarousel;
+    case 'doc':
+      return BlockDocument;
+    case 'gallery':
+      return BlockGallery;
+    case 'hardBreak':
+      return BlockHardbreak;
+    case 'heading':
+      return BlockHeading;
+    case 'horizontalRule':
+      return BlockHorizontalRule;
+    case 'image':
+      return BlockImage;
+    case 'listItem':
+      return BlockListItem;
+    case 'orderedList':
+      return BlockOrderedList;
+    case 'paragraph':
+      return BlockParagraph;
+    case 'section':
+      return BlockSection;
+    case 'spotify':
+      return BlockSpotify;
+    case 'text':
+      return BlockText;
+    case 'video':
+      return BlockVideo;
+    case 'vimeo':
+      return BlockVimeo;
+    case 'youtube':
+      return BlockYouTube;
+    default:
+      return BlockUnknown;
+  }
+});
+
+const wrapperClasses = computed(() => {
+  if (props.node.content?.some((child) => child.type === 'carousel')) {
+    return '-ml-5 w-[calc(100%+2.5rem)] md:ml-0 md:w-auto';
+  }
+  return '';
+});
+</script>
