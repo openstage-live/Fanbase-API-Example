@@ -86,6 +86,15 @@ class ApiService {
       const result = schema.safeParse(response.data);
 
       if (!result.success) {
+        const errorDetails = result.error?.issues || [];
+        console.log('Zod validation error:', {
+          errors: errorDetails,
+          errorObject: result.error,
+          url: config.url,
+          method: config.method,
+          responseData: response.data,
+        });
+
         Sentry.captureException(new Error('API response schema validation failed'), {
           tags: {
             api_error_type: 'schema_validation_failed',
