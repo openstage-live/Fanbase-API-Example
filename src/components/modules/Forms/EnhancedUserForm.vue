@@ -1221,7 +1221,11 @@ const onFormSubmit = handleSubmit(async () => {
 watch(
   () => fanData.value,
   (newValue) => {
-    if (newValue) setValues(newValue);
+    if (newValue) {
+      // Exclude Fan.state (Record) - not used in this app
+      const { state: _, ...fanWithoutState } = newValue;
+      setValues(fanWithoutState);
+    }
   },
   { immediate: true },
 );

@@ -27,7 +27,6 @@ export interface FormDataFan {
   location?: FanLocation;
   phoneNumber?: string;
   shirtSize?: string;
-  state?: string;
   deliveryAddress?: string;
   deliveryAddressStructured?: FanAddress;
 }
@@ -168,7 +167,8 @@ export const Fan = z.object({
   socialHandleTiktok: z.string().optional(),
   socialHandleTwitter: z.string().optional(),
   socialHandleYoutube: z.string().optional(),
-  state: z.string().optional(),
+  // Note: state is generic user data (Record<string, string>) from API, not used in this app.
+  state: z.record(z.string(), z.string()).optional(),
   subscribed: z.boolean(),
   subscribedAt: z.iso.datetime().optional(),
   subscriptionCancelledAt: z.iso.datetime().optional(),
