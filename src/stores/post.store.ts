@@ -30,7 +30,9 @@ export const usePostStore = defineStore('post', () => {
   } = useApiFetcher<PostItem | null>(null);
 
   const fetchPost = async (postId: string) => {
-    await executePostFetch((signal) => getPostItem({ id: postId }, signal));
+    await executePostFetch((signal) =>
+      getPostItem({ id: postId, artistId: useArtistStore().id }, signal),
+    );
   };
 
   // Fetching Post List

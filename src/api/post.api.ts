@@ -64,6 +64,7 @@ export type PlaybackData = z.infer<typeof PlaybackData>;
 
 type PostItemPayload = {
   id: string;
+  artistId: string;
 };
 
 type PostListPayload = {
