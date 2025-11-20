@@ -707,7 +707,7 @@ const loadVideoData = async (forceRefresh = false) => {
     }
 
     const result = await getPostPlay({
-      contentId: props.contentId!,
+      id: props.contentId!,
       thumbnailTime: props.thumbnailTime,
     });
 

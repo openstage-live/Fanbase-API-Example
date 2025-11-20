@@ -91,7 +91,7 @@ const handleAudioEnded = () => {
 
 // Lifecycle hooks
 onMounted(async () => {
-  const result = await getPostPlay({ contentId: attrs.value.contentId, thumbnailTime: 0 });
+  const result = await getPostPlay({ id: attrs.value.contentId, thumbnailTime: 0 });
 
   if (result.success) {
     playbackData.value = result.data;

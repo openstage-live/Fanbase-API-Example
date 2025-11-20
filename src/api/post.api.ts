@@ -82,7 +82,7 @@ type PostDeleteLikePayload = {
 };
 
 type PostPlayPayload = {
-  contentId: string;
+  id: string;
   thumbnailTime?: number;
 };
 
@@ -148,7 +148,7 @@ export async function getPostPlay(params: PostPlayPayload, signal?: AbortSignal)
   return apiService.request(
     {
       method: 'GET',
-      url: `${apiService.openstageApiFan}/content/play`,
+      url: `${apiService.openstageApiFan}/post/playAsset`,
       params,
     },
     PlaybackData,
