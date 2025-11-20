@@ -6,9 +6,9 @@ import { z } from 'zod';
 
 export const PostCollection = z.object({
   id: z.uuid(),
-  artist_id: z.uuid(),
+  artistId: z.uuid(),
   name: z.string(),
-  created_at: z.iso.datetime(),
+  createdAt: z.iso.datetime(),
 });
 
 export const PostCollectionList = PostCollection.array();
