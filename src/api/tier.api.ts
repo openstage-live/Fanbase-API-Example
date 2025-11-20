@@ -5,20 +5,20 @@ export const TierPeriod = z.enum(['month', 'year']);
 export const TierStatus = z.enum(['live', 'draft']);
 
 export const TierItem = z.object({
-  push_notifications: z.boolean(),
+  pushNotifications: z.boolean(),
   period: TierPeriod,
-  joining_fee: z.number(),
-  created_at: z.iso.datetime(),
+  joiningFee: z.number(),
+  createdAt: z.iso.datetime(),
   description: z.string(),
-  artist_id: z.uuid(),
-  trial_days: z.number(),
+  artistId: z.uuid(),
+  trialDays: z.number(),
   price: z.number(),
   name: z.string(),
-  email_notifications: z.boolean(),
+  emailNotifications: z.boolean(),
   id: z.uuid(),
   tag: z.string(),
-  messaging_notifications: z.boolean(),
-  sms_notifications: z.boolean(),
+  messagingNotifications: z.boolean(),
+  smsNotifications: z.boolean(),
   status: TierStatus,
 });
 
