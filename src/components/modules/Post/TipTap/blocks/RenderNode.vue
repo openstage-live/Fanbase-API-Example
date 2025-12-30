@@ -1,5 +1,5 @@
 <template>
-  <component :is="block" :node :addTelemetry :class="wrapperClasses">
+  <component :is="block" :node :addTelemetry>
     <template v-for="(child, _index) in node.content" :key="_index">
       <RenderNode :node="child" :addTelemetry />
     </template>
@@ -8,13 +8,13 @@
 
 <script setup lang="ts">
 import type { JSONContent } from '@tiptap/core';
-
 import { computed } from 'vue';
 import BlockAudio from '@modules/Post/TipTap/blocks//BlockAudio.vue';
 import BlockBlockquote from '@modules/Post/TipTap/blocks/BlockBlockquote.vue';
 import BlockBulletList from '@modules/Post/TipTap/blocks/BlockBulletList.vue';
 import BlockButton from '@modules/Post/TipTap/blocks/BlockButton.vue';
 import BlockCarousel from '@modules/Post/TipTap/blocks/BlockCarousel.vue';
+import BlockColumn from '@modules/Post/TipTap/blocks/BlockColumn.vue';
 import BlockDocument from '@modules/Post/TipTap/blocks/BlockDocument.vue';
 import BlockGallery from '@modules/Post/TipTap/blocks/BlockGallery.vue';
 import BlockHardbreak from '@modules/Post/TipTap/blocks/BlockHardbreak.vue';
@@ -49,6 +49,8 @@ const block = computed(() => {
       return BlockAudio;
     case 'blockquote':
       return BlockBlockquote;
+    case 'column':
+      return BlockColumn;
     case 'bulletList':
       return BlockBulletList;
     case 'button':
@@ -88,12 +90,5 @@ const block = computed(() => {
     default:
       return BlockUnknown;
   }
-});
-
-const wrapperClasses = computed(() => {
-  if (props.node.content?.some((child) => child.type === 'carousel')) {
-    return '-ml-5 w-[calc(100%+2.5rem)] md:ml-0 md:w-auto';
-  }
-  return '';
 });
 </script>

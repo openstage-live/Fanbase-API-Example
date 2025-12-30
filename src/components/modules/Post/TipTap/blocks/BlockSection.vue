@@ -1,41 +1,59 @@
 <template>
-  <section v-if="!attrs.hideOnWeb" class="section">
-    <div class="section__content">
-      <slot />
-    </div>
+  <section
+    v-if="!attrs.hideOnWeb"
+    class="section"
+    :class="{ 'has-columns': hasColumns }"
+    :style="sectionStyle"
+  >
+    <slot />
   </section>
 </template>
 
 <script setup lang="ts">
 import type { NodeProps } from './RenderNode.vue';
+import { computed, type CSSProperties } from 'vue';
 import { getSectionAttrs } from '@modules/Post/TipTap/extensions/Section/SectionExtension';
-import { computed } from 'vue';
 
 const props = defineProps<NodeProps>();
 const attrs = computed(() => getSectionAttrs(props.node.attrs));
+
+const hasColumns = computed(() => {
+  const content = props.node.content;
+  if (!content || content.length === 0) return false;
+  return content.every((child) => child.type === 'column');
+});
+
+const gridStyles = computed<CSSProperties>(() => ({
+  display: 'grid',
+  gap: `${attrs.value.gap}px`,
+  gridTemplateColumns: `repeat(${props.node.content?.length ?? 1}, 1fr)`,
+}));
+
+const sectionStyle = computed<CSSProperties>(() => ({
+  ...(hasColumns.value ? gridStyles.value : {}),
+  backgroundColor: attrs.value.backgroundColor ?? undefined,
+  backgroundImage: attrs.value.backgroundImage ? `url(${attrs.value.backgroundImage})` : undefined,
+  backgroundPosition: 'center',
+  backgroundRepeat: 'no-repeat',
+  backgroundSize: 'cover',
+  borderBottomLeftRadius: `${attrs.value.borderRadiusBottomLeft}px`,
+  borderBottomRightRadius: `${attrs.value.borderRadiusBottomRight}px`,
+  borderColor: attrs.value.borderColor ?? undefined,
+  borderStyle: attrs.value.borderStyle,
+  borderTopLeftRadius: `${attrs.value.borderRadiusTopLeft}px`,
+  borderTopRightRadius: `${attrs.value.borderRadiusTopRight}px`,
+  borderWidth: `${attrs.value.borderWidth}px`,
+  paddingBottom: `${attrs.value.paddingBottom}px`,
+  paddingLeft: `${attrs.value.paddingLeft}px`,
+  paddingRight: `${attrs.value.paddingRight}px`,
+  paddingTop: `${attrs.value.paddingTop}px`,
+}));
 </script>
 
 <style scoped>
-.section {
-  padding-top: v-bind('attrs.outerSpacingTop + "px"');
-  padding-right: v-bind('attrs.outerSpacingRight + "px"');
-  padding-bottom: v-bind('attrs.outerSpacingBottom + "px"');
-  padding-left: v-bind('attrs.outerSpacingLeft + "px"');
-}
-
-.section__content {
-  border-top-left-radius: v-bind('attrs.borderRadiusTopLeft + "px"');
-  border-top-right-radius: v-bind('attrs.borderRadiusTopRight + "px"');
-  border-bottom-right-radius: v-bind('attrs.borderRadiusBottomRight + "px"');
-  border-bottom-left-radius: v-bind('attrs.borderRadiusBottomLeft + "px"');
-  border-color: v-bind('attrs.borderColor');
-  border-style: v-bind('attrs.borderStyle');
-  border-width: v-bind('attrs.borderWidth + "px"');
-  padding-top: v-bind('attrs.innerSpacingTop + "px"');
-  padding-right: v-bind('attrs.innerSpacingRight + "px"');
-  padding-bottom: v-bind('attrs.innerSpacingBottom + "px"');
-  padding-left: v-bind('attrs.innerSpacingLeft + "px"');
-  width: 100%;
-  overflow: hidden;
+@media (max-width: 480px) {
+  .section.has-columns {
+    grid-template-columns: 1fr !important;
+  }
 }
 </style>
