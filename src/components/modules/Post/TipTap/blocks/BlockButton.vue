@@ -2,7 +2,6 @@
   <div class="button-wrapper">
     <Button
       v-bind="buttonAttrs"
-      :size="buttonSize"
       :variant="buttonVariant"
       @click="onClick"
       class="post-button"
@@ -42,25 +41,13 @@ const buttonWidth = computed(() => {
 });
 
 const buttonVariant = computed<ButtonVariants['variant']>(() => {
-  switch (attrs.value.variant) {
-    case 'solid':
+  switch (attrs.value.preset) {
+    case 'primary':
       return 'white';
-    case 'outline':
+    case 'secondary':
       return 'outline';
     default:
       return 'white';
-  }
-});
-
-const buttonSize = computed(() => {
-  switch (attrs.value.size) {
-    case 'sm':
-      return 'sm';
-    case 'lg':
-      return 'xl';
-    case 'md':
-    default:
-      return 'lg';
   }
 });
 
