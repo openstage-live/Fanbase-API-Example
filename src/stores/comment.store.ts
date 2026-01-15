@@ -237,12 +237,16 @@ export const useCommentStore = defineStore('comment', () => {
 
   const fetchComments = async (postId?: string) => {
     if (!postId) return;
-    await executeCommentFetch((signal) => fetchCommentsApi({ postId }, signal));
+    await executeCommentFetch((signal) =>
+      fetchCommentsApi({ postId, artistId: artistStore.id }, signal),
+    );
   };
 
   const fetchReplies = async (postId?: string, replyToId?: string) => {
     if (!postId || !replyToId) return;
-    await executeReplyFetch((signal) => fetchCommentsApi({ postId, replyToId }, signal));
+    await executeReplyFetch((signal) =>
+      fetchCommentsApi({ postId, replyToId, artistId: artistStore.id }, signal),
+    );
   };
 
   const postComment = async (postId?: string, comment?: string, replyToId?: string) => {

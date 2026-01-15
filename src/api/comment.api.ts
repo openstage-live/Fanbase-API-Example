@@ -2,6 +2,7 @@ import { apiService } from '@/api/api.service';
 import { z } from 'zod';
 
 type CommentGetPayload = {
+  artistId: string;
   postId?: string;
   replyToId?: string;
 };
