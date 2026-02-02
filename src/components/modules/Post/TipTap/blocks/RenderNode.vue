@@ -22,6 +22,7 @@ import BlockHeading from '@modules/Post/TipTap/blocks/BlockHeading.vue';
 import BlockHorizontalRule from '@modules/Post/TipTap/blocks/BlockHorizontalRule.vue';
 import BlockImage from '@modules/Post/TipTap/blocks/BlockImage.vue';
 import BlockListItem from '@modules/Post/TipTap/blocks/BlockListItem.vue';
+import BlockMergeTag from '@modules/Post/TipTap/blocks/BlockMergeTag.vue';
 import BlockOrderedList from '@modules/Post/TipTap/blocks/BlockOrderedList.vue';
 import BlockParagraph from '@modules/Post/TipTap/blocks/BlockParagraph.vue';
 import BlockSection from '@modules/Post/TipTap/blocks/BlockSection.vue';
@@ -83,6 +84,8 @@ const block = computed(() => {
       return BlockImage;
     case 'listItem':
       return BlockListItem;
+    case 'mergeTag':
+      return BlockMergeTag;
     case 'orderedList':
       return BlockOrderedList;
     case 'paragraph':
