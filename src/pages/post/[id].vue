@@ -142,5 +142,7 @@ onMounted(async () => {
   const id = 'id' in route.params ? route.params.id : '';
   await postStore.fetchPost(id);
   await postStore.fetchPostList();
+
+  addTelemetry('post-view');
 });
 </script>

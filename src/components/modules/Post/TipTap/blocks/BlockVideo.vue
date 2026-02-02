@@ -34,11 +34,11 @@ const attrs = computed(() => getVideoAttrs(props.node.attrs));
 
 // Methods
 const handlePlay = () => {
-  props.addTelemetry('view-post-video');
+  props.addTelemetry?.('view-post-video');
 };
 
 const handleEnded = () => {
-  props.addTelemetry('view-post-video-complete');
+  props.addTelemetry?.('view-post-video-complete');
 };
 
 const handleVideoError = (message: string) => {

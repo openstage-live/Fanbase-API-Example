@@ -12,18 +12,32 @@ import { getSchema } from '@tiptap/core';
 import { Highlight } from '@tiptap/extension-highlight';
 import { Italic } from '@tiptap/extension-italic';
 import { Paragraph } from '@tiptap/extension-paragraph';
-import { ref, watchEffect } from 'vue';
+import { postTelemetry } from '@/api/tracking.api';
+import { ref, watchEffect, onUnmounted } from 'vue';
 import { Strike } from '@tiptap/extension-strike';
 import { Text } from '@tiptap/extension-text';
+import { usePostStore } from '@/stores/post.store';
 import Link from '@tiptap/extension-link';
 
 const props = defineProps<NodeProps>();
 const htmlRef = ref<HTMLElement | null>(null);
 const schema = getSchema([Document, Paragraph, Highlight, Link, Bold, Italic, Strike, Code, Text]);
 const serializer = DOMSerializer.fromSchema(schema);
+const postStore = usePostStore();
+
+// Store cleanup functions for link listeners
+const linkListenerCleanups: (() => void)[] = [];
+
+const cleanupLinkListeners = () => {
+  linkListenerCleanups.forEach((cleanup) => cleanup());
+  linkListenerCleanups.length = 0;
+};
 
 watchEffect(() => {
   if (!htmlRef.value) return;
+
+  // Clean up previous listeners
+  cleanupLinkListeners();
 
   const text = props.node.text ?? '';
 
@@ -38,6 +52,24 @@ watchEffect(() => {
 
   htmlRef.value.innerHTML = '';
   htmlRef.value.appendChild(serializedFragment);
+
+  // Add telemetry listeners to links
+  const links = htmlRef.value.querySelectorAll('a');
+  links.forEach((link) => {
+    const handleClick = () => {
+      postTelemetry({
+        metric: 'link-click-post',
+        resource: link.href,
+        resourceId: postStore.post?.id,
+      });
+    };
+    link.addEventListener('click', handleClick);
+    linkListenerCleanups.push(() => link.removeEventListener('click', handleClick));
+  });
+});
+
+onUnmounted(() => {
+  cleanupLinkListeners();
 });
 </script>
 

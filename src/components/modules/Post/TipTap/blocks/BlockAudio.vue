@@ -82,11 +82,11 @@ const handleAudioError = (event: Event) => {
 };
 
 const handleAudioPlay = () => {
-  props.addTelemetry('play-post-audio');
+  props.addTelemetry?.('play-post-audio');
 };
 
 const handleAudioEnded = () => {
-  props.addTelemetry('play-post-audio-complete');
+  props.addTelemetry?.('play-post-audio-complete');
 };
 
 // Lifecycle hooks

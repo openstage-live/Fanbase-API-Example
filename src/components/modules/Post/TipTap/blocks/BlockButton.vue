@@ -18,9 +18,12 @@ import type { NodeProps } from './RenderNode.vue';
 import { computed } from 'vue';
 import { downloadFile } from '@/utils/download';
 import { getButtonAttrs } from '../extensions/Button/ButtonExtension';
+import { postTelemetry } from '@/api/tracking.api';
+import { usePostStore } from '@/stores/post.store';
 import Button from '@ui/button/Button.vue';
 
 const props = defineProps<NodeProps>();
+const postStore = usePostStore();
 
 const attrs = computed(() => getButtonAttrs(props.node.attrs));
 
@@ -52,9 +55,17 @@ const buttonVariant = computed<ButtonVariants['variant']>(() => {
 });
 
 function onClick() {
-  if (isDownload.value && attrs.value.href) {
+  if (!attrs.value.href) return;
+
+  if (isDownload.value) {
     downloadFile(attrs.value.href);
-    props.addTelemetry('download');
+    props.addTelemetry?.('download');
+  } else {
+    postTelemetry({
+      metric: 'link-click-post',
+      resource: attrs.value.href,
+      resourceId: postStore.post?.id,
+    });
   }
 }
 </script>
