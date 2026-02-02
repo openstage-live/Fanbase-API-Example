@@ -2,6 +2,8 @@
   <component :is="wrapperTag" v-bind="wrapperAttrs" class="image" @click="onClick">
     <RichImage
       :image="attrs.image"
+      :width="attrs.maxWidth"
+      :align="attrs.align"
       :show-caption="attrs.showCaption"
       :aspect-ratio="attrs.aspectRatio"
     />
@@ -26,7 +28,7 @@ const wrapperAttrs = computed(() =>
 function onClick() {
   if (isDownload.value && attrs.value.href) {
     downloadFile(attrs.value.href);
-    props.addTelemetry('download');
+    props.addTelemetry?.('download');
   }
 }
 </script>

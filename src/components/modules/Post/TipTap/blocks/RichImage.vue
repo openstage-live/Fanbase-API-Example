@@ -1,17 +1,16 @@
 <template>
-  <figure
-    class="relative h-full w-full select-none"
-    :style="{ aspectRatio: aspectRatio ?? 'auto' }"
-  >
+  <figure class="relative flex select-none flex-col" :style="{ alignItems }">
     <img
-      class="block h-full w-full object-cover object-center"
+      class="block w-full object-cover object-center"
       :src="image.src"
       :alt="image.alt"
       :title="image.title"
+      :style="{ maxWidth, aspectRatio }"
     />
     <figcaption
       v-if="showCaption && image.caption"
-      class="fill-available absolute bottom-0 h-max bg-black/30 py-2 text-center text-sm text-white"
+      class="w-full p-2 text-white"
+      :style="{ textAlign }"
     >
       {{ image.caption }}
     </figcaption>
@@ -19,6 +18,9 @@
 </template>
 
 <script setup lang="ts">
+import type { ImageAlign } from '../extensions/Image/ImageExtension';
+import { computed } from 'vue';
+
 interface RichImage {
   src: string;
   alt: string;
@@ -26,15 +28,28 @@ interface RichImage {
   caption: string;
 }
 
-defineProps<{
+const props = defineProps<{
   image: RichImage;
+  width?: number | null;
+  align?: ImageAlign;
   showCaption?: boolean;
   aspectRatio?: number | null;
 }>();
-</script>
 
-<style scoped>
-.fill-available {
-  width: -webkit-fill-available;
-}
-</style>
+const maxWidth = computed(() => (typeof props.width === 'number' ? props.width + 'px' : '100%'));
+
+const alignItems = computed(() => {
+  switch (props.align) {
+    case 'left':
+      return 'flex-start';
+    case 'right':
+      return 'flex-end';
+    default:
+      return 'center';
+  }
+});
+
+const aspectRatio = computed(() => props.aspectRatio ?? 'auto');
+
+const textAlign = computed(() => props.align ?? 'center');
+</script>
