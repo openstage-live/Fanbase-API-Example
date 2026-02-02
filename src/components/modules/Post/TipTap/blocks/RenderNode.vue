@@ -1,6 +1,6 @@
 <template>
   <component :is="block" :node :addTelemetry>
-    <template v-for="(child, _index) in node.content" :key="_index">
+    <template v-for="(child, index) in children" :key="index">
       <RenderNode :node="child" :addTelemetry />
     </template>
   </component>
@@ -34,10 +34,22 @@ import BlockYouTube from '@modules/Post/TipTap/blocks/BlockYouTube.vue';
 
 export interface NodeProps {
   node: JSONContent;
-  addTelemetry: (metric: string) => void;
+  addTelemetry?: (metric: string) => void;
 }
 
 const props = defineProps<NodeProps>();
+
+const children = computed<JSONContent[]>(() => {
+  const content = [...(props.node.content ?? [])];
+
+  // Duplicate trailing hardBreak to preserve line break rendering
+  const lastChild = content.at(-1);
+  if (lastChild?.type === 'hardBreak') {
+    content.push(lastChild);
+  }
+
+  return content;
+});
 
 const block = computed(() => {
   const type = props.node.type;
@@ -49,14 +61,14 @@ const block = computed(() => {
       return BlockAudio;
     case 'blockquote':
       return BlockBlockquote;
-    case 'column':
-      return BlockColumn;
     case 'bulletList':
       return BlockBulletList;
     case 'button':
       return BlockButton;
     case 'carousel':
       return BlockCarousel;
+    case 'column':
+      return BlockColumn;
     case 'doc':
       return BlockDocument;
     case 'gallery':
