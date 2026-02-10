@@ -4,6 +4,14 @@
 
 <script setup lang="ts">
 import type { NodeProps } from './RenderNode.vue';
+import {
+  BackgroundColor,
+  Color,
+  FontFamily,
+  FontSize,
+  LineHeight,
+  TextStyle,
+} from '@tiptap/extension-text-style';
 import { Bold } from '@tiptap/extension-bold';
 import { Code } from '@tiptap/extension-code';
 import { Document } from '@tiptap/extension-document';
@@ -15,13 +23,35 @@ import { Paragraph } from '@tiptap/extension-paragraph';
 import { postTelemetry } from '@/api/tracking.api';
 import { ref, watchEffect, onUnmounted } from 'vue';
 import { Strike } from '@tiptap/extension-strike';
+import { Subscript } from '@tiptap/extension-subscript';
+import { Superscript } from '@tiptap/extension-superscript';
 import { Text } from '@tiptap/extension-text';
+import { Underline } from '@tiptap/extension-underline';
 import { usePostStore } from '@/stores/post.store';
 import Link from '@tiptap/extension-link';
 
 const props = defineProps<NodeProps>();
 const htmlRef = ref<HTMLElement | null>(null);
-const schema = getSchema([Document, Paragraph, Highlight, Link, Bold, Italic, Strike, Code, Text]);
+const schema = getSchema([
+  BackgroundColor,
+  Bold,
+  Code,
+  Color,
+  Document,
+  FontFamily,
+  FontSize,
+  Highlight,
+  Italic,
+  LineHeight,
+  Link,
+  Paragraph,
+  Strike,
+  Subscript,
+  Superscript,
+  Text,
+  TextStyle,
+  Underline,
+]);
 const serializer = DOMSerializer.fromSchema(schema);
 const postStore = usePostStore();
 
@@ -46,7 +76,10 @@ watchEffect(() => {
     return;
   }
 
-  const marks = props.node.marks.map((mark) => Mark.fromJSON(schema, mark));
+  // Filter out unknown mark types to avoid schema errors
+  const marks = props.node.marks
+    .filter((mark) => schema.marks[mark.type])
+    .map((mark) => Mark.fromJSON(schema, mark));
   const fragment = Fragment.fromArray([schema.text(text, marks)]);
   const serializedFragment = serializer.serializeFragment(fragment);
 
