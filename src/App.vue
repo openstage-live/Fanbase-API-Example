@@ -1,5 +1,5 @@
 <template>
-  <div v-if="isPasswordProtected">
+  <div v-if="isPasswordProtected" class="min-h-dvh bg-background text-foreground">
     <div class="container flex h-dvh items-center justify-center">
       <PasswordProtectForm class="w-full max-w-lg" />
     </div>
@@ -82,7 +82,7 @@ const emailMismatch = computed(
     accountStore.guestEmail && fanStore.fanEmail && accountStore.guestEmail !== fanStore.fanEmail,
 );
 const pageBackgroundColor = computed(() =>
-  route.meta.bgColor === 'black' ? 'bg-black' : 'bg-white',
+  route.meta.bgColor === 'black' ? 'bg-black text-white' : 'bg-white text-foreground',
 );
 const headerBackgroundColor = computed(() =>
   route.meta.bgColor === 'black' ? 'bg-black' : 'bg-white',
