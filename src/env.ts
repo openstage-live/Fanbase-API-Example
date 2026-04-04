@@ -20,6 +20,19 @@ const EnvSchema = z.object({
     })
     .optional(),
 
+  // Artist social URLs
+  VITE_ARTIST_APPLE_URL: z.string().optional(),
+  VITE_ARTIST_DEEZER_URL: z.string().optional(),
+  VITE_ARTIST_FACEBOOK_URL: z.string().optional(),
+  VITE_ARTIST_INSTAGRAM_URL: z.string().optional(),
+  VITE_ARTIST_MIXCLOUD_URL: z.string().optional(),
+  VITE_ARTIST_SPOTIFY_URL: z.string().optional(),
+  VITE_ARTIST_TIKTOK_URL: z.string().optional(),
+  VITE_ARTIST_TWITCH_URL: z.string().optional(),
+  VITE_ARTIST_TWITTER_URL: z.string().optional(),
+  VITE_ARTIST_WEBSITE_URL: z.string().optional(),
+  VITE_ARTIST_YOUTUBE_URL: z.string().optional(),
+
   // Site Metadata
   VITE_SITE_TITLE: z.string().optional(),
   VITE_SITE_DESCRIPTION: z.string().optional(),

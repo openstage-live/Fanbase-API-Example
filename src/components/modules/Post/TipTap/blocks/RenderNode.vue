@@ -26,6 +26,7 @@ import BlockMergeTag from '@modules/Post/TipTap/blocks/BlockMergeTag.vue';
 import BlockOrderedList from '@modules/Post/TipTap/blocks/BlockOrderedList.vue';
 import BlockParagraph from '@modules/Post/TipTap/blocks/BlockParagraph.vue';
 import BlockSection from '@modules/Post/TipTap/blocks/BlockSection.vue';
+import BlockSocial from '@modules/Post/TipTap/blocks/BlockSocial.vue';
 import BlockSpotify from '@modules/Post/TipTap/blocks/BlockSpotify.vue';
 import BlockText from '@modules/Post/TipTap/blocks/BlockText.vue';
 import BlockUnknown from '@modules/Post/TipTap/blocks/BlockUnknown.vue';
@@ -92,6 +93,8 @@ const block = computed(() => {
       return BlockParagraph;
     case 'section':
       return BlockSection;
+    case 'social':
+      return BlockSocial;
     case 'spotify':
       return BlockSpotify;
     case 'text':
