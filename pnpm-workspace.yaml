@@ -1,0 +1,8 @@
+onlyBuiltDependencies:
+  - '@sentry/cli'
+  - '@tailwindcss/oxide'
+  - esbuild
+  - oxc-resolver
+  - sharp
+  - simple-git-hooks
+  - vue-demi

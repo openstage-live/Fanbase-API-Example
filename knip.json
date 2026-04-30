@@ -1,0 +1,7 @@
+{
+  "$schema": "https://unpkg.com/knip@5/schema.json",
+  "entry": ["src/App.vue", "src/main.ts", "src/pages/**/*.vue"],
+  "project": ["**/*.config.{js,ts}", "*.{js,ts}", "src/**/*.{js,ts,vue}"],
+  "ignore": ["typed-router.d.ts"],
+  "ignoreBinaries": ["only-allow"]
+}

@@ -1,0 +1,143 @@
+.post-tip-tap {
+  h1,
+  h1 span,
+  h1 span strong {
+    @apply mb-6 text-balance font-Matter text-5xl font-light uppercase text-white lg:text-8xl;
+  }
+
+  h2,
+  h2 span,
+  h2 span strong {
+    @apply mb-5 text-balance font-Matter text-3xl font-light uppercase text-white lg:text-4xl;
+  }
+
+  h3,
+  h3 span,
+  h3 span strong {
+    @apply mb-4 text-balance font-Matter text-2xl font-light uppercase text-white lg:text-3xl;
+  }
+
+  h4,
+  h4 span,
+  h4 span strong {
+    @apply mb-3 text-balance font-Matter text-xl font-light uppercase text-white lg:text-2xl;
+  }
+
+  h5,
+  h5 span,
+  h5 span strong {
+    @apply mb-3 text-balance font-Matter text-lg font-light uppercase text-white lg:text-xl;
+  }
+
+  h6,
+  h6 span,
+  h6 span strong {
+    @apply mb-2 text-balance font-Matter text-base font-light uppercase text-white lg:text-lg;
+  }
+
+  p {
+    @apply mb-4 text-balance font-Matter text-base font-light lg:text-lg;
+    margin: 0;
+  }
+
+  /*  Paragraphs */
+  p strong,
+  p span,
+  p em,
+  p u,
+  p s,
+  p mark {
+    @apply text-[15px] text-white lg:pl-0 lg:text-base;
+  }
+
+  p span mark {
+    @apply text-black;
+  }
+
+  span strong {
+    @apply text-white;
+  }
+
+  ul.bullet-list {
+    @apply mb-4 list-disc pl-6;
+    padding-left: 1.5rem;
+  }
+
+  ol.ordered-list {
+    @apply mb-4 list-decimal pl-6;
+  }
+
+  li {
+    @apply mb-1 text-balance font-Matter text-base font-light marker:text-white lg:text-lg;
+  }
+
+  li p {
+    @apply pl-2;
+  }
+
+  blockquote {
+    @apply font-Matter;
+    p {
+      @apply pl-0;
+    }
+    p span,
+    p strong {
+      @apply text-5xl lg:text-7xl;
+    }
+    p span div {
+      @apply font-Matter text-white;
+    }
+  }
+
+  pre {
+    @apply mb-4 overflow-x-auto rounded-lg bg-gray-100 p-4;
+  }
+
+  code {
+    @apply rounded bg-gray-100 px-1 py-0.5 text-sm;
+  }
+
+  pre code {
+    @apply bg-transparent p-0;
+  }
+
+  strong {
+    @apply font-Matter-Medium;
+  }
+
+  em {
+    @apply italic;
+  }
+
+  u {
+    @apply underline;
+  }
+
+  s {
+    @apply line-through;
+  }
+
+  mark {
+    @apply px-1;
+  }
+
+  a {
+    @apply text-primary underline transition-colors hover:text-primary/80;
+  }
+
+  a:visited {
+    @apply text-primary/70;
+  }
+
+  hr {
+    @apply my-6 border-t border-gray-300;
+  }
+
+  .document {
+    @apply space-y-4;
+  }
+
+  .btn {
+    @apply ml-2 no-underline;
+  }
+}

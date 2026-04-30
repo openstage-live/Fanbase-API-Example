@@ -1,0 +1,25 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "types": ["vitest/globals", "vitest/importMeta", "node", "cloudinary.d.ts"],
+    "paths": {
+      "@/*": ["./src/*"],
+      "@api/*": ["./src/api/*"],
+      "@composables/*": ["./src/composables/*"],
+      "@generics/*": ["./src/components/generic/*"],
+      "@modules/*": ["./src/components/modules/*"],
+      "@stores/*": ["./src/stores/*"],
+      "@ui/*": ["./src/components/ui/*"],
+      "@utils/*": ["./src/utils/*"]
+    }
+  },
+  "include": [
+    "src/**/*.ts",
+    "src/**/*.d.ts",
+    "src/**/*.tsx",
+    "src/**/*.vue",
+    "vitest.config.ts",
+    "src/**/*.test.ts",
+    "src/**/*.spec.ts"
+  ]
+}
