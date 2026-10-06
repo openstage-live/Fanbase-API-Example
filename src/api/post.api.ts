@@ -20,24 +20,27 @@ export const PostContent = z.object({
 });
 
 export const PostItem = z.object({
-  id: z.uuid().optional(),
-  postCollectionId: z.string().optional(),
-  title: z.string().optional(),
-  content: PostContent.optional(),
-  description: z.string().optional(),
-  createdAt: z.iso.datetime(),
-  updatedAt: z.iso.datetime().optional(),
-  startAt: z.iso.datetime(),
-  endAt: z.iso.datetime().optional(),
-  thumbnailImage: z.string().optional(),
-  thumbnailVideo: z.string().optional(),
+  id: z.uuid(),
+  access: z.enum(['public', 'gated', 'audience']).nullish(),
+  accessGranted: z.boolean().nullish(),
+  relativeUrl: z.string().nullish(),
+  postCollectionId: z.string().nullish(),
+  title: z.string().nullish(),
+  content: PostContent.nullish(),
+  description: z.string().nullish(),
+  createdAt: z.coerce.date(),
+  updatedAt: z.coerce.date().nullish(),
+  startAt: z.coerce.date().nullish(),
+  endAt: z.coerce.date().nullish(),
+  thumbnailImage: z.string().nullish(),
+  thumbnailVideo: z.string().nullish(),
   pinned: z.boolean(),
-  status: z.string().optional(),
+  status: z.string().nullish(),
   hideComments: z.boolean(),
   hideFromFeed: z.boolean(),
-  commentCount: z.number().optional(),
-  likeCount: z.number().optional(),
-  likedByMe: z.boolean(),
+  commentCount: z.number().nullish(),
+  likeCount: z.number().nullish(),
+  likedByMe: z.boolean().nullish(),
 });
 
 export const PostList = PostItem.array();
@@ -63,14 +66,17 @@ export type PlaybackData = z.infer<typeof PlaybackData>;
 // Payloads
 
 type PostItemPayload = {
-  id: string;
   artistId: string;
+  id?: string;
+  relativeUrl?: string;
+  shareSecret?: string;
 };
 
 type PostListPayload = {
   artistId: string;
   postCollectionId?: string;
-  includeContent?: string;
+  limit?: number;
+  offset?: number;
 };
 
 type PostLikePayload = {
@@ -83,6 +89,8 @@ type PostDeleteLikePayload = {
 
 type PostPlayPayload = {
   id: string;
+  artistId: string;
+  postId: string;
   thumbnailTime?: number;
 };
 
@@ -145,13 +153,17 @@ export async function doDeleteLikePost(params: PostDeleteLikePayload, signal?: A
 }
 
 export async function getPostPlay(params: PostPlayPayload, signal?: AbortSignal) {
+  const authToken = useAccountStore().authToken;
+  const headers = authToken ? { Authorization: `Bearer ${authToken}` } : {};
+
   return apiService.request(
     {
       method: 'GET',
       url: `${apiService.openstageApiFan}/post/playAsset`,
       params,
+      headers,
     },
     PlaybackData,
-    { signal, requiresAuth: true },
+    { signal },
   );
 }

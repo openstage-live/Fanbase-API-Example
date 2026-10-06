@@ -7,7 +7,7 @@
     <img
       v-if="post.thumbnailImage"
       :src="post.thumbnailImage"
-      :alt="post.title"
+      :alt="post.title ?? ''"
       class="aspect-square object-cover"
     />
     <div v-else class="flex aspect-square items-center justify-center">
@@ -50,7 +50,7 @@
 
 <script setup lang="ts">
 import { computed } from 'vue';
-import { isAfter, format, parseISO } from 'date-fns';
+import { isAfter, format } from 'date-fns';
 import { storeToRefs } from 'pinia';
 import { usePostCollectionStore } from '@stores/postCollection.store';
 import type { PostCollection } from '@api/postCollection.api';
@@ -68,12 +68,8 @@ const postCollectionStore = usePostCollectionStore();
 const { postCollectionList, isPostCollectionListFetching } = storeToRefs(postCollectionStore);
 
 const displayDateTime = computed(() => {
-  const startAt = parseISO(props.post.startAt);
-  const createdAt = parseISO(props.post.createdAt);
-  if (isAfter(startAt, createdAt)) {
-    return format(startAt, 'd MMMM');
-  }
-  return format(createdAt, 'd MMMM');
+  const { startAt, createdAt } = props.post;
+  return format(startAt && isAfter(startAt, createdAt) ? startAt : createdAt, 'd MMMM');
 });
 
 const postCollection = computed(() => {

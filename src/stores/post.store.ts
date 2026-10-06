@@ -45,9 +45,9 @@ export const usePostStore = defineStore('post', () => {
     cancel: cancelPostListRequests,
   } = useApiFetcher<PostList>([]);
 
-  const fetchPostList = async (postCollectionId?: string, includeContent?: string) => {
+  const fetchPostList = async (postCollectionId?: string) => {
     await executePostListFetch((signal) =>
-      getPostList({ artistId: useArtistStore().id, postCollectionId, includeContent }, signal),
+      getPostList({ artistId: useArtistStore().id, postCollectionId }, signal),
     );
   };
 
@@ -93,14 +93,14 @@ export const usePostStore = defineStore('post', () => {
   const postList = computed(() => {
     const filteredPosts =
       postListData.value?.filter((post: PostItem) => {
-        return !post.hideFromFeed;
+        return !post.hideFromFeed && (post.accessGranted !== false || post.access === 'gated');
       }) ?? [];
 
     return filteredPosts.sort((a, b) => {
       if (a.pinned && !b.pinned) return -1;
       if (!a.pinned && b.pinned) return 1;
 
-      return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
+      return b.createdAt.getTime() - a.createdAt.getTime();
     });
   });
 

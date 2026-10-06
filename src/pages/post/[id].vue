@@ -29,13 +29,16 @@
       </div>
       <div class="container border-l border-r border-white/10 px-0" v-if="model">
         <div class="post-tip-tap flex flex-col gap-4 border-b border-white/10 px-4">
-          <PostRenderer
-            v-for="(post, i) in model?.content?.content"
-            :key="`content-${i}`"
-            :node="post"
-            :addTelemetry
-            class="relative"
-          />
+          <BlockGate v-if="model.accessGranted === false" class="my-8" />
+          <template v-else>
+            <PostRenderer
+              v-for="(post, i) in model?.content?.content"
+              :key="`content-${i}`"
+              :node="post"
+              :addTelemetry
+              class="relative"
+            />
+          </template>
         </div>
         <div class="mx-auto flex w-full justify-center py-12">
           <PostActions :post="model" :date="displayDateTime" />
@@ -68,7 +71,7 @@
 import { computed, onMounted } from 'vue';
 import { useRoute } from 'vue-router';
 import { storeToRefs } from 'pinia';
-import { isAfter, format, parseISO } from 'date-fns';
+import { isAfter, format } from 'date-fns';
 import { useTranslation } from '@/locales/i18n';
 import { useArtistStore } from '@stores/artist.store';
 import { useBandsInTownStore } from '@/stores/bandsInTown.store';
@@ -77,6 +80,7 @@ import { postTelemetry } from '@api/tracking.api';
 import type { PostItem } from '@api/post.api';
 
 import LoadingSection from '@generics/LoadingSection.vue';
+import BlockGate from '@modules/Post/TipTap/blocks/BlockGate.vue';
 import PostRenderer from '@modules/Post/PostRenderer.vue';
 import PostActions from '@modules/Post/PostActions.vue';
 import PostFeedItem from '@modules/PostFeed/PostFeedItem.vue';
@@ -122,14 +126,10 @@ const filteredPostList = computed(() => {
 });
 
 const displayDateTime = computed(() => {
-  if (!model.value?.startAt || !model.value?.createdAt) return '';
+  if (!model.value) return '';
 
-  const startAt = parseISO(model.value?.startAt);
-  const createdAt = parseISO(model.value?.createdAt);
-  if (isAfter(startAt, createdAt)) {
-    return format(startAt, 'd MMMM');
-  }
-  return format(createdAt, 'd MMMM');
+  const { startAt, createdAt } = model.value;
+  return format(startAt && isAfter(startAt, createdAt) ? startAt : createdAt, 'd MMMM');
 });
 
 const addTelemetry = (metric: string) => {

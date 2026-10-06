@@ -109,6 +109,8 @@ import { Loader2, AlertTriangle, CirclePlay } from 'lucide-vue-next';
 
 // Interfaces
 import { getPostPlay, type PlaybackData } from '@api/post.api';
+import { useArtistStore } from '@stores/artist.store';
+import { usePostStore } from '@stores/post.store';
 
 interface MuxPlayerElement extends HTMLVideoElement {
   paused: boolean;
@@ -708,6 +710,8 @@ const loadVideoData = async (forceRefresh = false) => {
 
     const result = await getPostPlay({
       id: props.contentId!,
+      artistId: useArtistStore().id,
+      postId: usePostStore().post?.id ?? '',
       thumbnailTime: props.thumbnailTime,
     });
 

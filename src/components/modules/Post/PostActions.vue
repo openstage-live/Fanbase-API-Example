@@ -21,8 +21,8 @@
   </Button>
   <ShareButton
     :title="post.title as string"
-    :text="post.description"
-    :media="post.thumbnailImage"
+    :text="post.description ?? undefined"
+    :media="post.thumbnailImage ?? undefined"
     :url="postUrl || ''"
     :post-id="post.id"
     isWhite

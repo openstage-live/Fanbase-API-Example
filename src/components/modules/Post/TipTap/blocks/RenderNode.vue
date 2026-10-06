@@ -17,6 +17,7 @@ import BlockCarousel from '@modules/Post/TipTap/blocks/BlockCarousel.vue';
 import BlockColumn from '@modules/Post/TipTap/blocks/BlockColumn.vue';
 import BlockDocument from '@modules/Post/TipTap/blocks/BlockDocument.vue';
 import BlockGallery from '@modules/Post/TipTap/blocks/BlockGallery.vue';
+import BlockGate from '@modules/Post/TipTap/blocks/BlockGate.vue';
 import BlockHardbreak from '@modules/Post/TipTap/blocks/BlockHardbreak.vue';
 import BlockHeading from '@modules/Post/TipTap/blocks/BlockHeading.vue';
 import BlockHorizontalRule from '@modules/Post/TipTap/blocks/BlockHorizontalRule.vue';
@@ -55,6 +56,8 @@ const children = computed<JSONContent[]>(() => {
 });
 
 const block = computed(() => {
+  if (props.node.attrs?.accessGranted === false) return BlockGate;
+
   const type = props.node.type;
 
   if (!type) return BlockDocument;

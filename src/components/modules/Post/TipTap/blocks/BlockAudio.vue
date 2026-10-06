@@ -25,6 +25,8 @@ import SafariVideoFix from '@/utils/safariVideoFix';
 
 // Interfaces
 import { getPostPlay, type PlaybackData } from '@api/post.api';
+import { useArtistStore } from '@stores/artist.store';
+import { usePostStore } from '@stores/post.store';
 
 // Refs
 const playbackData = ref<PlaybackData | null>(null);
@@ -91,7 +93,12 @@ const handleAudioEnded = () => {
 
 // Lifecycle hooks
 onMounted(async () => {
-  const result = await getPostPlay({ id: attrs.value.contentId, thumbnailTime: 0 });
+  const result = await getPostPlay({
+    id: attrs.value.contentId,
+    artistId: useArtistStore().id,
+    postId: usePostStore().post?.id ?? '',
+    thumbnailTime: 0,
+  });
 
   if (result.success) {
     playbackData.value = result.data;

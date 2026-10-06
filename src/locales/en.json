@@ -171,6 +171,10 @@
     "subtitle": "Enter your email and we'll send you a link to reset your password.",
     "title": "Having trouble logging in?"
   },
+  "gate": {
+    "title": "This content is locked",
+    "description": "Join to unlock it."
+  },
   "home": {
     "getExclusiveAccess": "Get access to behind-the-scenes content, exclusive updates, and connect with other fans!",
     "joinTheCommunity": "Join the Community",
