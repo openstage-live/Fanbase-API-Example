@@ -48,6 +48,9 @@ const EnvSchema = z.object({
   VITE_RADAR_KEY: z.string().optional(),
   VITE_GOOGLE_MAPS_API_KEY: z.string().default(''),
 
+  // Google reCAPTCHA Enterprise site key (required by /fan/signup-start)
+  VITE_RECAPTCHA_SITE_KEY: z.string().optional(),
+
   // Mux Configuration
   VITE_MUX_ENV_KEY: z.string().optional(),
 

@@ -23,17 +23,22 @@
       :message="sendSignUpError"
       @close="sendSignUpError = null"
     />
+    <div
+      class="text-center text-xs text-foreground/50"
+      v-html="t('dynamic.termsSignup', { artistName: artistStore.name })"
+    ></div>
     <SignInLink />
   </form>
 </template>
 
 <script setup lang="ts">
-import { watch } from 'vue';
+import { onMounted, watch } from 'vue';
 import { useForm } from 'vee-validate';
 import { toTypedSchema } from '@vee-validate/zod';
 import { z } from 'zod';
 import { useTranslation } from '@/locales/i18n';
 import { useAccountStore } from '@stores/account.store';
+import { useArtistStore } from '@stores/artist.store';
 import { storeToRefs } from 'pinia';
 
 import { Loader2 } from 'lucide-vue-next';
@@ -48,6 +53,7 @@ const emit = defineEmits<{
 
 const { t } = useTranslation();
 const accountStore = useAccountStore();
+const artistStore = useArtistStore();
 const { sendSignUpData, sendSignUpError, isSendSignUpFetching } = storeToRefs(accountStore);
 
 const schema = toTypedSchema(
@@ -76,6 +82,8 @@ const onSubmit = handleSubmit(async (values) => {
   if (sendSignUpError.value) return;
   emit('success', values.email || null);
 });
+
+onMounted(accountStore.preloadCaptcha);
 
 watch(email, (newValue) => {
   if (newValue !== accountStore.guestEmail) {

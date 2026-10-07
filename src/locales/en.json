@@ -147,11 +147,12 @@
   "dynamic": {
     "minAgeNotMet": "You must be at least {minAge} years old to create an account.",
     "termsEmail": "I consent to {artistName} sending me marketing communications by email.",
-    "termsGeneral": "By submitting your information, you agree to the <a class='underline underline-offset-2' href=\"https://openstage.live/privacy\" target=\"_blank\" title=\"Opens in a new window\">Privacy Notice</a> and the <a class='underline underline-offset-2' href=\"https://openstage.live/terms\" target=\"_blank\" title=\"Opens in a new window\">Terms &amp; Conditions</a>. If under 18, please make sure you have parental permission.",
-    "termsPhone": "I consent to {artistName} sending me marketing communications by SMS, even if my number is on a do-not-call registry. Message frequency varies, message and data rates may apply. Text STOP to cancel."
+    "termsPhone": "I consent to {artistName} sending me marketing communications by SMS, even if my number is on a do-not-call registry. Message frequency varies, message and data rates may apply. Text STOP to cancel.",
+    "termsSignup": "By submitting your email, you agree to receive updates from {artistName} by email. You can unsubscribe anytime. See our <a class='underline underline-offset-2' href=\"https://openstage.live/privacy\" target=\"_blank\" title=\"Opens in a new window\">Privacy Notice</a> and <a class='underline underline-offset-2' href=\"https://openstage.live/terms\" target=\"_blank\" title=\"Opens in a new window\">Terms &amp; Conditions</a>."
   },
   "errors": {
     "backToHome": "Back to Home",
+    "captchaFailed": "We couldn't verify you're human. Disable any content blockers and try again.",
     "contentErrorSubtitle": "The content you're looking for could not be found. Please check the URL or try again later.",
     "contentErrorTitle": "Error",
     "couldNotScanTag": "Could not scan NFC tag. Please try again.",
@@ -159,7 +160,6 @@
     "incorrectAccessCode": "Incorrect access code",
     "invalidEmail": "Please enter a valid email address",
     "invalidPhoneNumber": "Please enter a valid phone number",
-    "invalidToken": "Invalid or expired token",
     "passwordMinLengthNotMet": "Password must be at least 8 characters",
     "passwordsMustMatch": "Passwords must match",
     "postLoadFailed": "Failed to load posts",
@@ -189,7 +189,6 @@
     "label": {
       "accessCode": "Access code",
       "birthDate": "Date of birth",
-      "createPassword": "Create a password",
       "email": "Email",
       "firstName": "First name",
       "geolocationNotSupported": "Autofilling location is not supported by your browser",

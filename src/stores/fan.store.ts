@@ -141,7 +141,7 @@ export const useFanStore = defineStore('fan', () => {
   const fanEmail = computed(() => fanData.value?.email);
   const fanSubscriptionId = computed(() => fanData.value?.subscriptionId);
   const fanAvatarUrl = computed(() => fanData.value?.avatarUrl);
-  const fanSubscibredAt = computed(() => fanData.value?.subscribed);
+  const fanSubscibredAt = computed(() => fanData.value?.subscribedAt);
   const fanSubscriptionCancelledAt = computed(() => fanData.value?.subscriptionCancelledAt);
   const cancellationRequestedAndPending = computed(() => {
     return Boolean(fanSubscriptionCancelledAt.value && fanSubscriptionId.value);
@@ -164,10 +164,7 @@ export const useFanStore = defineStore('fan', () => {
     );
   });
 
-  const getRequiredFields = (
-    requireConsent?: boolean,
-    requirePassword?: boolean,
-  ): RequiredFields => {
+  const getRequiredFields = (requireConsent?: boolean): RequiredFields => {
     return {
       firstName: true,
       lastName: true,
@@ -175,9 +172,8 @@ export const useFanStore = defineStore('fan', () => {
       location: true,
       phoneNumber: true,
       birthDate: true,
-      password: requirePassword,
       consentEmail: requireConsent,
-      consentSms: requireConsent,
+      consentMessaging: requireConsent,
     };
   };
 
@@ -197,7 +193,7 @@ export const useFanStore = defineStore('fan', () => {
       return;
     }
 
-    await executeFanGet((signal) => getFanApi({ artistId: artistStore.id }, signal));
+    await executeFanGet((signal) => getFanApi({ artistId: artistStore.id }, undefined, signal));
   };
 
   const fanPatch = async (payload: FanUpdateData, token?: string) => {

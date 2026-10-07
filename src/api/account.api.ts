@@ -24,9 +24,23 @@ type ChangeEmailPayload = {
   email: string;
 };
 
-type SignUpPayload = {
+type SignupStartPayload = {
   artistId: string;
-  password?: string;
+  email: string;
+  captcha: string;
+  consentEmail: true;
+  confirmEmail: true;
+  /** The API appends `?token=…` itself. */
+  returnUrl: string;
+  friendId?: string;
+  /** GDPR consent evidence: the page the fan consented on. */
+  url: string;
+  /** GDPR consent evidence: the legal copy shown when the fan consented. */
+  evidence: string;
+};
+
+type SignupConfirmPayload = {
+  artistId: string;
   friendId?: string;
 };
 
@@ -48,31 +62,22 @@ type SendMagicLinkPayload = {
   returnUrl: string;
 };
 
-type SendSignUpPayload = {
-  artistId: string;
-  email: string;
-  returnUrl: string;
-};
-
-export type SignUpResponse = z.infer<typeof SignUpResponse>;
+export type SignupStartResponse = z.infer<typeof SignupStartResponse>;
 export type EmailResponse = z.infer<typeof EmailResponse>;
 export type ChangeDetailsResponse = z.infer<typeof ChangeDetailsResponse>;
 
 // Response schemas
-const SignUpResponse = z.object({
-  auth: z.string(),
+/** Guest (`nonAuthoritative`) session for the captured email. Not a fan record. */
+const SignupStartResponse = z.object({
+  role: z.literal('nonAuthoritative'),
+  token: z.string(),
   consentEmail: z.boolean(),
   consentMessaging: z.boolean(),
-  consentSms: z.boolean(),
-  createdAt: z.iso.datetime().optional(),
-  email: z.string(),
-  id: z.string(),
-  location: z.object({}).optional(),
-  role: z.string(),
-  subscribed: z.boolean(),
-  subscribedAt: z.iso.datetime().optional(),
+});
+
+/** New fans get only a token; fan2.1 creates the fan row asynchronously. */
+const SignupConfirmResponse = z.object({
   token: z.string(),
-  updatedAt: z.iso.datetime(),
 });
 
 const ChangeDetailsResponse = z.object({
@@ -139,15 +144,19 @@ export async function changeEmail(params: ChangeEmailPayload, token: string, sig
   );
 }
 
-export async function signUp(params: SignUpPayload, token: string, signal?: AbortSignal) {
+export async function signupConfirm(
+  params: SignupConfirmPayload,
+  token: string,
+  signal?: AbortSignal,
+) {
   return apiService.request(
     {
       method: 'POST',
-      url: `${apiService.openstageApiFan}/fan/signup`,
+      url: `${apiService.openstageApiFan}/fan/signup-confirm`,
       data: params,
-      headers: token ? { Authorization: `Bearer ${token}` } : {},
+      headers: { Authorization: `Bearer ${token}` },
     },
-    SignUpResponse,
+    SignupConfirmResponse,
     { signal },
   );
 }
@@ -203,14 +212,14 @@ export async function sendMagicLink(
   );
 }
 
-export async function sendSignUp(payload: SendSignUpPayload, signal?: AbortSignal) {
+export async function signupStart(payload: SignupStartPayload, signal?: AbortSignal) {
   return apiService.request(
     {
       method: 'POST',
-      url: `${apiService.openstageApiFan}/fan/email/signup`,
+      url: `${apiService.openstageApiFan}/fan/signup-start`,
       data: payload,
     },
-    EmailResponse,
+    SignupStartResponse,
     { signal },
   );
 }

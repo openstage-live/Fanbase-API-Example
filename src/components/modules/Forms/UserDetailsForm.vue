@@ -95,31 +95,10 @@
         :disabled="isSubmitting || isLoading"
         :minYearsAgo="minAge"
       />
-      <template v-if="collectFields.password">
-        <InputWrapped
-          :label="t('input.label.createPassword')"
-          :placeholder="t('input.label.createPassword')"
-          name="password"
-          type="password"
-          v-model="password"
-          v-bind="passwordAttrs"
-          :error="errors.password"
-          :disabled="isSubmitting || isLoading"
-          autocomplete="new-password"
-        />
-        <InputWrapped
-          :label="t('input.label.retypePassword')"
-          :placeholder="t('input.label.retypePassword')"
-          name="retypePassword"
-          type="password"
-          v-model="retypePassword"
-          v-bind="retypePasswordAttrs"
-          :error="errors.retypePassword"
-          :disabled="isSubmitting || isLoading"
-          autocomplete="new-password"
-        />
-      </template>
-      <div v-if="collectFields.consentEmail || collectFields.consentSms" class="grid gap-y-2 pb-2">
+      <div
+        v-if="collectFields.consentEmail || collectFields.consentMessaging"
+        class="grid gap-y-2 pb-2"
+      >
         <CheckboxWrapped
           v-if="collectFields.consentEmail"
           :model-value="consentEmail || false"
@@ -132,14 +111,14 @@
           :disabled="isSubmitting || isLoading"
         />
         <CheckboxWrapped
-          v-if="collectFields.consentSms"
-          :model-value="consentSms || false"
-          @update:model-value="consentSms = $event"
-          :label="consentSmsLabel"
+          v-if="collectFields.consentMessaging"
+          :model-value="consentMessaging || false"
+          @update:model-value="consentMessaging = $event"
+          :label="consentMessagingLabel"
           :variant="variant"
-          name="consentSms"
-          v-bind="consentSmsAttrs"
-          :error="errors.consentSms"
+          name="consentMessaging"
+          v-bind="consentMessagingAttrs"
+          :error="errors.consentMessaging"
           :disabled="isSubmitting || isLoading"
         />
       </div>
@@ -232,7 +211,7 @@ const props = withDefaults(
   },
 );
 const emit = defineEmits<{
-  (e: 'submit', payload: FanUpdateData, signupData: { email?: string; password?: string }): void;
+  (e: 'submit', payload: FanUpdateData): void;
   (e: 'change'): void;
   (e: 'clearError'): void;
   (e: 'clearSuccess'): void;
@@ -244,20 +223,20 @@ const { isAuthenticated } = storeToRefs(accountStore);
 const { name: artistName, minAge } = storeToRefs(artistStore);
 
 const consentEmailLabel = computed(() => t('dynamic.termsEmail', { artistName: artistName.value }));
-const consentSmsLabel = computed(() => t('dynamic.termsPhone', { artistName: artistName.value }));
+const consentMessagingLabel = computed(() =>
+  t('dynamic.termsPhone', { artistName: artistName.value }),
+);
 
 const createValidationSchema = () => {
   const schema: {
     avatarUrl: z.ZodString | z.ZodOptional<z.ZodString>;
     birthDate: z.ZodString | z.ZodOptional<z.ZodString>;
     consentEmail: z.ZodBoolean | z.ZodLiteral<true>;
-    consentSms: z.ZodBoolean | z.ZodLiteral<true>;
+    consentMessaging: z.ZodBoolean | z.ZodLiteral<true>;
     email: z.ZodEmail | z.ZodOptional<z.ZodEmail>;
     firstName: z.ZodString | z.ZodOptional<z.ZodString>;
     lastName: z.ZodString | z.ZodOptional<z.ZodString>;
     username: z.ZodString | z.ZodOptional<z.ZodString>;
-    password: z.ZodString | z.ZodOptional<z.ZodString>;
-    retypePassword: z.ZodString | z.ZodOptional<z.ZodString>;
     location: typeof FanLocation | z.ZodOptional<typeof FanLocation>;
     phoneNumber: z.ZodString | z.ZodOptional<z.ZodString>;
     shirtSize: z.ZodString | z.ZodOptional<z.ZodString>;
@@ -268,13 +247,11 @@ const createValidationSchema = () => {
     avatarUrl: z.string().optional(),
     birthDate: z.string().optional(),
     consentEmail: z.boolean(),
-    consentSms: z.boolean(),
+    consentMessaging: z.boolean(),
     email: z.email().optional(),
     firstName: z.string().optional(),
     lastName: z.string().optional(),
     username: z.string().optional(),
-    password: z.string().optional(),
-    retypePassword: z.string().optional(),
     location: FanLocation.optional(),
     phoneNumber: z.string().optional(),
     shirtSize: z.string().optional(),
@@ -320,32 +297,14 @@ const createValidationSchema = () => {
         t('dynamic.minAgeNotMet', { minAge: minAge.value }),
       );
   }
-  if (props.requiredFields.password) {
-    schema.password = z
-      .string()
-      .min(1, t('errors.required'))
-      .min(8, t('errors.passwordMinLengthNotMet'));
-    schema.retypePassword = z.string().min(1, t('errors.required'));
-  }
   if (props.requiredFields.consentEmail) {
     schema.consentEmail = z.literal(true, t('errors.required'));
   }
-  if (props.requiredFields.consentSms) {
-    schema.consentSms = z.literal(true, t('errors.required'));
+  if (props.requiredFields.consentMessaging) {
+    schema.consentMessaging = z.literal(true, t('errors.required'));
   }
 
-  return z.object(schema).refine(
-    (data) => {
-      if (props.requiredFields.password && data.password && data.retypePassword) {
-        return data.password === data.retypePassword;
-      }
-      return true;
-    },
-    {
-      message: t('errors.passwordsMustMatch'),
-      path: ['retypePassword'],
-    },
-  );
+  return z.object(schema);
 };
 
 const schema = computed(() => toTypedSchema(createValidationSchema()));
@@ -363,10 +322,8 @@ const [email, emailAttrs] = defineField('email');
 const [phoneNumber, phoneNumberAttrs] = defineField('phoneNumber');
 const [location, locationAttrs] = defineField('location');
 const [birthDate, birthDateAttrs] = defineField('birthDate');
-const [password, passwordAttrs] = defineField('password');
-const [retypePassword, retypePasswordAttrs] = defineField('retypePassword');
 const [consentEmail, consentEmailAttrs] = defineField('consentEmail');
-const [consentSms, consentSmsAttrs] = defineField('consentSms');
+const [consentMessaging, consentMessagingAttrs] = defineField('consentMessaging');
 
 function isLocationEqual(a?: FanLocation, b?: FanLocation): boolean {
   if (a === b) return true;
@@ -424,7 +381,7 @@ const onSubmit = handleSubmit(() => {
 
   if (!Object.keys(payload).length) return;
 
-  emit('submit', payload as FanUpdateData, { email: email.value, password: password.value });
+  emit('submit', payload as FanUpdateData);
 });
 
 watch(

@@ -226,7 +226,7 @@
         </div>
       </template>
       <div
-        v-if="collectFields.consentEmail || collectFields.consentSms"
+        v-if="collectFields.consentEmail || collectFields.consentMessaging"
         class="mt-3 grid gap-y-2 pb-2"
       >
         <CheckboxWrapped
@@ -240,13 +240,13 @@
           :disabled="isSubmitting || isFanFetching"
         />
         <CheckboxWrapped
-          v-if="collectFields.consentSms"
-          :model-value="consentSms || false"
-          @update:model-value="consentSms = $event"
-          :label="consentSmsLabel"
-          name="consentSms"
-          v-bind="consentSmsAttrs"
-          :error="errors.consentSms"
+          v-if="collectFields.consentMessaging"
+          :model-value="consentMessaging || false"
+          @update:model-value="consentMessaging = $event"
+          :label="consentMessagingLabel"
+          name="consentMessaging"
+          v-bind="consentMessagingAttrs"
+          :error="errors.consentMessaging"
           :disabled="isSubmitting || isFanFetching"
         />
       </div>
@@ -515,7 +515,7 @@ const collectFields: CollectFields = {
   phoneNumber: true,
   birthDate: true,
   consentEmail: true,
-  consentSms: true,
+  consentMessaging: true,
   consentNotifications: true,
 };
 
@@ -672,7 +672,9 @@ const schema = computed(() => toTypedSchema(createValidationSchema()));
 // Form-related computed properties
 const consentEmailLabel = computed(() => t('dynamic.termsEmail', { artistName: artistName.value }));
 
-const consentSmsLabel = computed(() => t('dynamic.termsPhone', { artistName: artistName.value }));
+const consentMessagingLabel = computed(() =>
+  t('dynamic.termsPhone', { artistName: artistName.value }),
+);
 
 const formattedSubscriptionDate = computed(() => {
   const subscribedAt = fanStore.fanData?.subscribedAt;
@@ -703,13 +705,11 @@ const createValidationSchema = () => {
     avatarUrl: z.ZodString | z.ZodOptional<z.ZodString>;
     birthDate: z.ZodString | z.ZodOptional<z.ZodString>;
     consentEmail: z.ZodBoolean | z.ZodLiteral<true>;
-    consentSms: z.ZodBoolean | z.ZodLiteral<true>;
+    consentMessaging: z.ZodBoolean | z.ZodLiteral<true>;
     email: z.ZodEmail | z.ZodOptional<z.ZodEmail>;
     firstName: z.ZodString | z.ZodOptional<z.ZodString>;
     lastName: z.ZodString | z.ZodOptional<z.ZodString>;
     username: z.ZodString | z.ZodOptional<z.ZodString>;
-    password: z.ZodString | z.ZodOptional<z.ZodString>;
-    retypePassword: z.ZodString | z.ZodOptional<z.ZodString>;
     location: typeof FanLocation | z.ZodOptional<typeof FanLocation>;
     phoneNumber: z.ZodString | z.ZodOptional<z.ZodString>;
     shirtSize: z.ZodString | z.ZodOptional<z.ZodString>;
@@ -727,13 +727,11 @@ const createValidationSchema = () => {
     avatarUrl: z.string().optional(),
     birthDate: z.string().optional(),
     consentEmail: z.boolean(),
-    consentSms: z.boolean(),
+    consentMessaging: z.boolean(),
     email: z.email().optional(),
     firstName: z.string().optional(),
     lastName: z.string().optional(),
     username: z.string().optional(),
-    password: z.string().optional(),
-    retypePassword: z.string().optional(),
     location: FanLocation.optional(),
     phoneNumber: z.string().optional(),
     shirtSize: z.string().optional(),
@@ -789,8 +787,8 @@ const createValidationSchema = () => {
   if (requiredFields.value.consentEmail) {
     schema.consentEmail = z.literal(true, t('errors.required'));
   }
-  if (requiredFields.value.consentSms) {
-    schema.consentSms = z.literal(true, t('errors.required'));
+  if (requiredFields.value.consentMessaging) {
+    schema.consentMessaging = z.literal(true, t('errors.required'));
   }
 
   // Dynamic field validation based on fieldConfig - only for manual form
@@ -844,7 +842,7 @@ const [phoneNumber, phoneNumberAttrs] = defineField('phoneNumber');
 const [location, locationAttrs] = defineField('location');
 const [birthDate, birthDateAttrs] = defineField('birthDate');
 const [consentEmail, consentEmailAttrs] = defineField('consentEmail');
-const [consentSms, consentSmsAttrs] = defineField('consentSms');
+const [consentMessaging, consentMessagingAttrs] = defineField('consentMessaging');
 
 // Address form field definitions
 const [country] = defineField('country', {

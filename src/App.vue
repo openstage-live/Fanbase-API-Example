@@ -13,7 +13,9 @@
       :isOpen="emailMismatch"
     />
     <MissingDetails
-      v-else-if="!route.meta.preview && isAuthenticated && hasMissingFields"
+      v-else-if="
+        !route.meta.preview && route.name !== 'SignUp' && isAuthenticated && hasMissingFields
+      "
       :isOpen="hasMissingFields"
     />
     <StripeRedirectDialog />

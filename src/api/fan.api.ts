@@ -17,13 +17,11 @@ export interface FormDataFan {
   avatarUrl?: string;
   birthDate?: string;
   consentEmail: boolean;
-  consentSms: boolean;
+  consentMessaging: boolean;
   email?: string;
   firstName?: string;
   lastName?: string;
   username?: string;
-  password?: string;
-  retypePassword?: string;
   location?: FanLocation;
   phoneNumber?: string;
   shirtSize?: string;
@@ -40,9 +38,7 @@ export const DefaultFormFanData: FormDataFan = {
   location: undefined,
   birthDate: '',
   consentEmail: false,
-  consentSms: false,
-  password: '',
-  retypePassword: '',
+  consentMessaging: false,
   avatarUrl: undefined,
 };
 
@@ -69,10 +65,9 @@ export interface CollectFields {
   location?: boolean;
   phoneNumber?: boolean;
   birthDate?: boolean;
-  password?: boolean;
   consentEmail?: boolean;
   consentNotifications?: boolean;
-  consentSms?: boolean;
+  consentMessaging?: boolean;
 }
 
 export interface RequiredFields {
@@ -83,9 +78,8 @@ export interface RequiredFields {
   location?: boolean;
   phoneNumber?: boolean;
   birthDate?: boolean;
-  password?: boolean;
   consentEmail?: boolean;
-  consentSms?: boolean;
+  consentMessaging?: boolean;
 }
 
 interface FanBasePayload {
@@ -118,7 +112,18 @@ export const FanAddress = z.object({
   latitude: z.number().optional(),
   longitude: z.number().optional(),
   formattedAddress: z.string().optional(),
-  source: z.enum(['radar', 'google', 'manual']).optional(),
+  source: z
+    .enum([
+      'radar',
+      'google',
+      'autocomplete-radar',
+      'autocomplete-google',
+      'autodetect-radar',
+      'autodetect-google',
+      'autodetect',
+      'manual',
+    ])
+    .optional(),
   verified: z.boolean().optional(),
 });
 
@@ -135,17 +140,15 @@ export const FanLocation = z.object({
 });
 
 export const Fan = z.object({
-  auth: z.string(),
   avatarUrl: z.string().optional(),
   birthDate: z.string().optional(),
   city: z.string().optional(),
   consentEmail: z.boolean(),
   consentMessaging: z.boolean(),
   consentNotifications: z.boolean().optional(),
-  consentSms: z.boolean(),
   countryCallingCode: z.string().optional(),
   countryCode: z.string().optional(),
-  createdAt: z.iso.datetime(),
+  createdAt: z.iso.datetime().optional(),
   dateOfBirth: z.string().optional(),
   deliveryAddress: z.string().optional(),
   deliveryAddressStructured: FanAddress.optional(),
@@ -160,6 +163,11 @@ export const Fan = z.object({
   longitude: z.number().optional(),
   nationalPhoneNumber: z.string().optional(),
   phoneNumber: z.string().optional(),
+  phoneValidatedAt: z.iso.datetime().optional(),
+  receivesApple: z.boolean().optional(),
+  receivesDeezer: z.boolean().optional(),
+  receivesSpotify: z.boolean().optional(),
+  registeredAt: z.iso.datetime().optional(),
   role: z.string(),
   shirtSize: z.string().optional(),
   socialHandleFacebook: z.string().optional(),
@@ -167,9 +175,9 @@ export const Fan = z.object({
   socialHandleTiktok: z.string().optional(),
   socialHandleTwitter: z.string().optional(),
   socialHandleYoutube: z.string().optional(),
-  // Note: state is generic user data (Record<string, string>) from API, not used in this app.
-  state: z.record(z.string(), z.string()).optional(),
-  subscribed: z.boolean(),
+  // Note: state is generic user data from API, not used in this app.
+  state: z.record(z.string(), z.unknown()).optional(),
+  stripeId: z.string().optional(),
   subscribedAt: z.iso.datetime().optional(),
   subscriptionCancelledAt: z.iso.datetime().optional(),
   subscriptionId: z.string().optional(),
@@ -232,15 +240,16 @@ const FanCommentsResponse = z.array(
 );
 
 // ==================== API Functions ==================== //
-export async function getFan(params: FanBasePayload, signal?: AbortSignal) {
+export async function getFan(params: FanBasePayload, token?: string, signal?: AbortSignal) {
   return apiService.request(
     {
       method: 'GET',
       url: `${apiService.openstageApiFan}/fan`,
       params,
+      headers: token ? { Authorization: `Bearer ${token}` } : {},
     },
     Fan,
-    { signal, requiresAuth: true },
+    { signal, requiresAuth: !token },
   );
 }
 

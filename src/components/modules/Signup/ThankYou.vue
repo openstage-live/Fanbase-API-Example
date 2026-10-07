@@ -18,7 +18,7 @@
     :variant="sendSignUpData ? 'success' : 'destructive'"
     class="mt-4"
     :title="sendSignUpData ? t('common.success') : t('common.error')"
-    :message="sendSignUpData?.message || sendSignUpError || ''"
+    :message="sendSignUpError || t('signUp.thankYouSubtitle', { fanEmail })"
     @close="
       sendSignUpData = null;
       sendSignUpError = null;

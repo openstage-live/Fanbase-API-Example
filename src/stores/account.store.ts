@@ -14,17 +14,20 @@ import {
   magicLink,
   changePassword,
   changeEmail,
-  signUp as signUpApi,
+  signupConfirm,
   sendChangeEmail as sendChangeEmailApi,
   sendForgotPassword as sendForgotPasswordApi,
   sendMagicLink as sendMagicLinkApi,
-  sendSignUp as sendSignUpApi,
-  type SignUpResponse,
+  signupStart,
+  type SignupStartResponse,
   type EmailResponse,
   type ChangeDetailsResponse,
 } from '@/api/account.api';
+import { getFan } from '@/api/fan.api';
 import { useArtistStore } from '@stores/artist.store';
 import { useZatapStore } from './zatap.store';
+import { useReCaptcha } from '@/composables/useReCaptcha';
+import { useTranslation } from '@/locales/i18n';
 
 export const useAccountStore = defineStore('account', () => {
   const router = useRouter();
@@ -35,6 +38,8 @@ export const useAccountStore = defineStore('account', () => {
   const artistStore = useArtistStore();
   const fanStore = useFanStore();
   const zatapStore = useZatapStore();
+  const reCaptcha = useReCaptcha();
+  const { t } = useTranslation();
 
   const guestEmail = useStorage('emailFromQuery', '', sessionStorage);
 
@@ -71,15 +76,20 @@ export const useAccountStore = defineStore('account', () => {
     error: sendSignUpError,
     isFetching: isSendSignUpFetching,
     execute: executeSendSignUp,
-  } = useApiFetcher<EmailResponse | null>(null);
+  } = useApiFetcher<SignupStartResponse | null>(null);
 
   const {
     data: signUpData,
     error: signUpError,
     isFetching: isSignUpFetching,
     execute: executeSignUp,
-  } = useApiFetcher<SignUpResponse | null>(null, {
-    successCallback: () => {
+  } = useApiFetcher<Fan | null>(null, {
+    successCallback: (data) => {
+      if (!data) return;
+      setAuthToken(data.token);
+      setSubscriptionId(data.subscriptionId);
+      setUserIdInGTM(data.id);
+      fanStore.setFanGetFetcherData(data);
       postTelemetry({
         metric: 'signup',
         resource: window.location.href,
@@ -198,23 +208,58 @@ export const useAccountStore = defineStore('account', () => {
     if (redirectToRoute) router.push({ name: redirectToRoute });
   };
 
+  /** Emails a link to `/signup?token=…`. New fans verify; existing fans get a login link. */
   const sendSignUp = async (email: string) => {
-    await executeSendSignUp((signal) =>
-      sendSignUpApi(
+    await executeSendSignUp(async (signal) => {
+      let captcha: string;
+      try {
+        captcha = await reCaptcha.execute('signup');
+      } catch (error) {
+        console.error(error);
+        return { success: false as const, message: t('errors.captchaFailed') };
+      }
+      const friendId = localStorage.getItem('friendId') || undefined;
+      const consent = document.createElement('div');
+      consent.innerHTML = t('dynamic.termsSignup', { artistName: artistStore.name });
+      const result = await signupStart(
         {
-          email,
-          returnUrl: `${artistStore.returnUrl}/signup`,
           artistId: artistStore.id,
+          email,
+          captcha,
+          consentEmail: true,
+          confirmEmail: true,
+          returnUrl: `${artistStore.returnUrl}/signup`,
+          url: window.location.href,
+          evidence: consent.textContent ?? '',
+          ...(friendId && { friendId }),
         },
         signal,
-      ),
-    );
+      );
+      // The raw rejection includes the captcha score and user agent, so keep it off the page.
+      return !result.success &&
+        /failed captcha|NO_CAPTCHA|NO_TOKEN_PROPERTIES/i.test(result.message)
+        ? { success: false as const, message: t('errors.captchaFailed') }
+        : result;
+    });
   };
 
-  const signUp = async (password?: string, friendId?: string) => {
-    await executeSignUp((signal) =>
-      signUpApi({ password, friendId, artistId: artistStore.id }, tokenInQuery.value, signal),
-    );
+  /** Exchanges the emailed signup token for a logged-in session, once fan2.1 has created the fan. */
+  const signUp = async (friendId?: string) => {
+    await executeSignUp(async (signal) => {
+      const confirm = await signupConfirm(
+        { friendId, artistId: artistStore.id },
+        tokenInQuery.value,
+        signal,
+      );
+      if (!confirm.success) return confirm;
+      const fetchFan = () => getFan({ artistId: artistStore.id }, confirm.data.token, signal);
+      let fan = await fetchFan();
+      for (let i = 0; i < 10 && !fan.success && fan.message.includes('fan is pending'); i++) {
+        await new Promise((resolve) => setTimeout(resolve, 1000));
+        fan = await fetchFan();
+      }
+      return fan;
+    });
   };
 
   const sendChangeEmail = async (email: string) => {
@@ -306,6 +351,7 @@ export const useAccountStore = defineStore('account', () => {
     sendSignUpError,
     isSendSignUpFetching,
     sendSignUp,
+    preloadCaptcha: reCaptcha.preload,
     signUpData,
     signUpError,
     isSignUpFetching,

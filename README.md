@@ -50,12 +50,12 @@ Create a `.env` file in the project root based on the configuration below. You c
 ```bash
 # Openstage API Configuration
 # Production
-VITE_OPENSTAGE_API_FAN=https://api.openstage.live/fan2
-VITE_OPENSTAGE_API_FAN_QUEUE=https://queue.openstage.live/fan2
+VITE_OPENSTAGE_API_FAN=https://api.openstage.live/fan2.1
+VITE_OPENSTAGE_API_FAN_QUEUE=https://queue.openstage.live/fan2.1
 
 # Staging
-# VITE_OPENSTAGE_API_FAN=https://api-stage.openstage.live/fan2
-# VITE_OPENSTAGE_API_FAN_QUEUE=https://api-stage.openstage.live/fan2
+# VITE_OPENSTAGE_API_FAN=https://api-stage.openstage.live/fan2.1
+# VITE_OPENSTAGE_API_FAN_QUEUE=https://api-stage.openstage.live/fan2.1
 
 # Artist Configuration
 VITE_ARTIST_ID=your-artist-id
@@ -77,6 +77,9 @@ VITE_STRIPE_CONNECT_ID=acct_your_connect_id
 # Geolocation Configuration
 VITE_RADAR_KEY=your-radar-key
 VITE_GOOGLE_MAPS_API_KEY=your-google-maps-key
+
+# reCAPTCHA Enterprise site key for signup — ask Openstage for the key and to allow your domain
+VITE_RECAPTCHA_SITE_KEY=your-recaptcha-site-key
 
 # Mux configuration
 VITE_MUX_ENV_KEY=your-mux-env-key
